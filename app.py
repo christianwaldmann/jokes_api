@@ -1,6 +1,7 @@
 from flask import Flask
 from markupsafe import escape
 import requests
+import os
 from string_manipulation import reverse_words
 
 
@@ -35,3 +36,8 @@ def joke_id_reverse(id):
     joke = res.json()
     joke["value"] = reverse_words(joke["value"])
     return joke
+
+
+if __name__ == "__main__":
+    port = int(os.getenv('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
