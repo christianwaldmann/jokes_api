@@ -8,17 +8,21 @@ from string_manipulation import reverse_words
 app = Flask("JokesAPI")
 
 
+def create_joke_from_response(res):
+    res_json = res.json()
+    return {"id": res_json["id"], "value": res_json["value"]}
+
+
 @app.route("/joke")
 def joke_random():
     res = requests.get("https://api.chucknorris.io/jokes/random")
-    joke = res.json()
-    return joke
+    return create_joke_from_response(res)
 
 
 @app.route("/joke/reverse")
 def joke_random_reverse():
     res = requests.get("https://api.chucknorris.io/jokes/random")
-    joke = res.json()
+    joke = create_joke_from_response(res)
     joke["value"] = reverse_words(joke["value"])
     return joke
 
@@ -26,14 +30,13 @@ def joke_random_reverse():
 @app.route("/joke/<id>")
 def joke_id(id):
     res = requests.get(f"https://api.chucknorris.io/jokes/{escape(id)}")
-    joke = res.json()
-    return joke
+    return create_joke_from_response(res)
 
 
 @app.route("/joke/<id>/reverse")
 def joke_id_reverse(id):
     res = requests.get(f"https://api.chucknorris.io/jokes/{escape(id)}")
-    joke = res.json()
+    joke = create_joke_from_response(res)
     joke["value"] = reverse_words(joke["value"])
     return joke
 
