@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from markupsafe import escape
 import requests
 import os
@@ -11,6 +11,11 @@ app = Flask("JokesAPI")
 def create_joke_from_response(res):
     res_json = res.json()
     return {"id": res_json["id"], "value": res_json["value"]}
+
+
+@app.route("/")
+def index():
+    return render_template("index.html")
 
 
 @app.route("/joke")
