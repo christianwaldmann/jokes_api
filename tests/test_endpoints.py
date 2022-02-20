@@ -1,5 +1,11 @@
 import pytest
-from app import app
+import os
+from app import create_app, setup_database
+
+
+app = create_app()
+if not os.path.isdir(os.getenv("DATABASE_LOCAL_PATH")):
+    setup_database(app)
 
 
 @pytest.fixture
