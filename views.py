@@ -77,7 +77,7 @@ def joke_random_reverse():
     return joke
 
 
-@app_bp.route("/joke/<id>")
+@app_bp.route("/joke/<id>", methods=['GET'])
 def joke_id(id):
     res = requests.get(f"https://api.chucknorris.io/jokes/{escape(id)}")
     res_json = res.json()
@@ -135,3 +135,14 @@ def delete_author(id):
     db.session.delete(author)
     db.session.commit()
     return author_schema.jsonify(author)
+
+
+@app_bp.route("/joke/<jid>/<aid>", methods=['PUT'])
+def assign_author_to_joke(jid, aid):
+    internaljoke = InternalJoke.query.get(jid)
+    internaljoke.author_id = aid
+    db.session.commit()
+    author = Author.query.get(internaljoke.author_id)
+    res = requests.get(f"https://api.chucknorris.io/jokes/{escape(jid)}")
+    res_json = res.json()
+    return {"id": internaljoke.id, "value": res_json["value"], "author": f"{author.firstname} {author.lastname}"}
