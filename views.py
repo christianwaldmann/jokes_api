@@ -94,6 +94,7 @@ def joke_id_reverse(id):
 
 
 author_schema = AuthorSchema()
+authors_schema = AuthorSchema(many=True)
 internaljoke_schema = InternalJokeSchema()
 
 
@@ -110,4 +111,27 @@ def add_author():
 @app_bp.route('/author/<id>', methods=['GET'])
 def get_author(id):
     author = Author.query.get(id)
+    return author_schema.jsonify(author)
+
+
+@app_bp.route('/author', methods=['GET'])
+def get_all_authors():
+    all_authors = Author.query.all()
+    return authors_schema.jsonify(all_authors)
+
+
+@app_bp.route('/author/<id>', methods=['PUT'])
+def update_author(id):
+    author = Author.query.get(id)
+    author.firstname = request.json['firstname']
+    author.lastname = request.json['lastname']
+    db.session.commit()
+    return author_schema.jsonify(author)
+
+
+@app_bp.route('/author/<id>', methods=['DELETE'])
+def delete_author(id):
+    author = Author.query.get(id)
+    db.session.delete(author)
+    db.session.commit()
     return author_schema.jsonify(author)
