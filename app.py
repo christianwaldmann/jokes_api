@@ -25,9 +25,10 @@ def create_app():
 def setup_database(app):
     with app.app_context():
         db.create_all()
-        author = Author("Hans", "Jürgen")
-        db.session.add(author)
-        db.session.commit()
+        if not Author.query.first():
+            author = Author("Hans", "Jürgen")
+            db.session.add(author)
+            db.session.commit()
 
 
 if __name__ == "__main__":
