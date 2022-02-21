@@ -12,4 +12,3 @@ before_script:
   - psql -c 'create database my_databse;' -U postgres
 script:
   - python -m pytest tests -v
-
