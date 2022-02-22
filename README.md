@@ -1,21 +1,63 @@
 # Jokes API
 
+
 This is an API for Chuck Norris facts/jokes. It is a API proxy for <a href="https://api.chucknorris.io/">api.chucknorris.io</a>.
 
+The original API is supplemented by a new (fake) attribute author.
+This information is stored persistent.
+The first time a joke is fetched, it gets assigned a random author, which is then saved in a PostgreSQL database.
+
+
 <h3>Endpoints:</h3>
-<div>
-    <span>GET </span>
-    <a href="https://jokes-api100.herokuapp.com/joke">https://jokes-api100.herokuapp.com/joke</a>
-</div>
-<div>
-    <span>GET </span>
-    <a href="https://jokes-api100.herokuapp.com/joke/reverse">https://jokes-api100.herokuapp.com/joke/reverse</a>
-</div>
-<div>
-    <span>GET </span>
-    <a href="https://jokes-api100.herokuapp.com/joke/{id}">https://jokes-api100.herokuapp.com/joke/{id}</a>
-</div>
-<div>
-    <span>GET </span>
-    <a href="https://jokes-api100.herokuapp.com/joke/{id}/reverse">https://jokes-api100.herokuapp.com/joke/{id}/reverse</a>
-</div>
+<table>
+<tr>
+    <td>Get random joke</td>
+    <td>GET </td>
+    <td><a href="https://jokes-api100.herokuapp.com/joke">https://jokes-api100.herokuapp.com/joke</a></td>
+</tr>
+<tr>
+    <td>Get random joke with reversed words</td>
+    <td>GET </td>
+    <td><a href="https://jokes-api100.herokuapp.com/joke/reverse">https://jokes-api100.herokuapp.com/joke/reverse</a></td>
+</tr>
+<tr>
+    <td>Get joke by id</td>
+    <td>GET </td>
+    <td><a href="https://jokes-api100.herokuapp.com/joke/{id}">https://jokes-api100.herokuapp.com/joke/{id}</a></td>
+</tr>
+<tr>
+    <td>Get joke by id with reversed words</td>
+    <td>GET </td>
+    <td><a href="https://jokes-api100.herokuapp.com/joke/{id}/reverse">https://jokes-api100.herokuapp.com/joke/{id}/reverse</a></td>
+</tr>
+<tr>
+    <td>Add new author</td>
+    <td>POST </td>
+    <td><a href="https://jokes-api100.herokuapp.com/author">https://jokes-api100.herokuapp.com/author</a></td>
+</tr>
+<tr>
+    <td>Get author by id</td>
+    <td>GET </td>
+    <td><a href="https://jokes-api100.herokuapp.com/author/{id}">https://jokes-api100.herokuapp.com/author/{id}</a></td>
+</tr>
+<tr>
+    <td>Get all authors</td>
+    <td>GET </td>
+    <td><a href="https://jokes-api100.herokuapp.com/author">https://jokes-api100.herokuapp.com/author</a></td>
+</tr>
+<tr>
+    <td>Update author by id</td>
+    <td>PUT </td>
+    <td><a href="https://jokes-api100.herokuapp.com/author/{id}">https://jokes-api100.herokuapp.com/author/{id}</a></td>
+</tr>
+<tr>
+    <td>Delete author by id</td>
+    <td>DELETE </td>
+    <td><a href="https://jokes-api100.herokuapp.com/author/{id}">https://jokes-api100.herokuapp.com/author/{id}</a></td>
+</tr>
+<tr>
+    <td>Assign author to joke</td>
+    <td>PUT </td>
+    <td><a href="https://jokes-api100.herokuapp.com/joke/{jid}/{aid}">https://jokes-api100.herokuapp.com/joke/{jid}/{aid}</a></td>
+</tr>
+</table>
