@@ -68,7 +68,7 @@ def index():
 def joke_random():
     res = requests.get("https://api.chucknorris.io/jokes/random")
     res_json = res.json()
-    return create_joke(res_json["id"], res_json["value"])
+    return create_joke(res_json["id"], res_json["value"]), 200
 
 
 @app_bp.route("/joke/reverse")
@@ -77,7 +77,7 @@ def joke_random_reverse():
     res_json = res.json()
     joke = create_joke(res_json["id"], res_json["value"])
     joke["value"] = reverse_words(joke["value"])
-    return joke
+    return joke, 200
 
 
 @app_bp.route("/joke/<id>", methods=['GET'])
@@ -93,7 +93,7 @@ def joke_id_reverse(id):
     res_json = res.json()
     joke = create_joke(id, res_json["value"])
     joke["value"] = reverse_words(joke["value"])
-    return joke
+    return joke, 200
 
 
 author_schema = AuthorSchema()
@@ -108,19 +108,19 @@ def add_author():
     new_author = Author(firstname, lastname)
     db.session.add(new_author)
     db.session.commit()
-    return author_schema.jsonify(new_author)
+    return author_schema.jsonify(new_author), 201
 
 
 @app_bp.route('/author/<id>', methods=['GET'])
 def get_author(id):
     author = Author.query.get(id)
-    return author_schema.jsonify(author)
+    return author_schema.jsonify(author), 200
 
 
 @app_bp.route('/author', methods=['GET'])
 def get_all_authors():
     all_authors = Author.query.all()
-    return authors_schema.jsonify(all_authors)
+    return authors_schema.jsonify(all_authors), 200
 
 
 @app_bp.route('/author/<id>', methods=['PUT'])
@@ -129,7 +129,7 @@ def update_author(id):
     author.firstname = request.json['firstname']
     author.lastname = request.json['lastname']
     db.session.commit()
-    return author_schema.jsonify(author)
+    return author_schema.jsonify(author), 200
 
 
 @app_bp.route('/author/<id>', methods=['DELETE'])
@@ -137,7 +137,7 @@ def delete_author(id):
     author = Author.query.get(id)
     db.session.delete(author)
     db.session.commit()
-    return author_schema.jsonify(author)
+    return author_schema.jsonify(author), 200
 
 
 @app_bp.route("/joke/<jid>/<aid>", methods=['PUT'])
@@ -148,4 +148,4 @@ def assign_author_to_joke(jid, aid):
     author = Author.query.get(internaljoke.author_id)
     res = requests.get(f"https://api.chucknorris.io/jokes/{escape(jid)}")
     res_json = res.json()
-    return {"id": internaljoke.id, "value": res_json["value"], "author": f"{author.firstname} {author.lastname}"}
+    return {"id": internaljoke.id, "value": res_json["value"], "author": f"{author.firstname} {author.lastname}"}, 200
