@@ -7,10 +7,13 @@ from flask_limiter.util import get_remote_address
 import requests
 from markupsafe import escape
 from string_manipulation import reverse_words
+import os
 
 
 app_bp = Blueprint("application", __name__)
 limiter = Limiter(key_func=get_remote_address, default_limits=["200/day", "20/minute"])
+if os.getenv("DISABLE_RATE_LIMIT", False):
+    limiter.enabled = False
 
 
 class Author(db.Model):
