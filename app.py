@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 
 from database import db, ma
-from views import app_bp, Author
+from views import app_bp, Author, limiter
 
 
 load_dotenv()
@@ -19,6 +19,7 @@ def create_app():
     db.init_app(app)
     ma.init_app(app)
     app.register_blueprint(app_bp)
+    limiter.init_app(app)
     return app
 
 

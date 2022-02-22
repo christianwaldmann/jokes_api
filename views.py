@@ -2,12 +2,15 @@ from flask import render_template, request
 from database import db, ma
 from flask.blueprints import Blueprint
 from sqlalchemy.sql.expression import func
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 import requests
 from markupsafe import escape
 from string_manipulation import reverse_words
 
 
 app_bp = Blueprint("application", __name__)
+limiter = Limiter(key_func=get_remote_address, default_limits=["200/day", "20/minute"])
 
 
 class Author(db.Model):
